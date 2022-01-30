@@ -32,3 +32,17 @@ const text = `<div style="color: blue">${content}</span>`; // oh, do we have to 
 We have such a question here because the escape operation is not idempotent. If we do not put the escape operation in `content`, we may end up forgetting to ecape the email. However, if we put the escape in `text`, we are still stuck because we will incorrectly escape the `span`.
 
 Some people may mistakenly think that we can unescape the string repeatedly until it does not change, and then re-escape it. It actually does not work, because if the param contains escaped character, we still have to show it by escaping it, instead of just keeping that copy.
+
+## Usage
+We can simply use
+```javascript
+const { escape, escaped } = createEscapeHelper(escapeHtml);
+const email = "your.email@provider.com";
+const text = escape`<span style="color: red; ">${email}</span>`;
+const content = escape`<div style="color: blue; ">${text} ${"injectedName"} ${escaped(3)}</div>`;
+
+console.log(`${content}`);
+```
+
+Then both `email` and `"injectedName"` will be escaped once, except `3`.
+We can pass `content` around until we need to convert it to a string.
