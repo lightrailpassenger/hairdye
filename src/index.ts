@@ -34,5 +34,5 @@ const createEscapeHelper = (escapeFn: Escaper): {
   };
 };
 
-export type { Escaper, EscapableResult };
+export type { EscapableResult, Escaper };
 export default createEscapeHelper;
